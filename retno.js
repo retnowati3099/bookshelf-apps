@@ -3,6 +3,7 @@ const searchBook = document.getElementById("searchBook");
 const checkbox = document.getElementById("inputBookIsComplete");
 const incompleteRead = document.getElementById("incompleteRead");
 const modal = document.getElementById("modal");
+const modalEdit = document.getElementById("modalEdit");
 const mode = document.getElementById("mode");
 const icon = document.getElementById("iconDarkLight");
 let darkMode = true;
@@ -137,13 +138,44 @@ function makeNewBook(bookObject, isComplete) {
   btnBlue.classList.add("blue");
   btnBlue.innerText = "Edit buku";
   btnBlue.addEventListener("click", function () {
-    console.log("editing..." + bookObject.title);
-    const editDialog = document.createElement("dialog");
-    const title = document.createElement("h1");
-    title.innerText = bookObject.title;
-    console.log(title.textContent);
-    editDialog.append(title);
-    editDialog.open = true;
+    modalEdit.style.display = "block";
+    isLocalStorageExist();
+    const books = JSON.parse(localStorage.getItem(localStorageKey));
+    const index = books.findIndex((book) => book.id == bookObject.id);
+    const title = document.getElementById("editBookTitle");
+    title.value = books[index].title;
+    const author = document.getElementById("editBookAuthor");
+    author.value = books[index].author;
+    const year = document.getElementById("editBookYear");
+    year.value = Number(books[index].year);
+    const isComplete = document.getElementById("editBookIsComplete");
+    isComplete.checked = books[index].isComplete;
+    const cancelUpdate = document.getElementById("cancelUpdate");
+    const update = document.getElementById("update");
+    cancelUpdate.addEventListener("click", function (event) {
+      event.preventDefault();
+      modalEdit.style.display = "none";
+    });
+    window.addEventListener("click", function (event) {
+      if (event.target == modalEdit) {
+        modalEdit.style.display = "none";
+      }
+    });
+    update.addEventListener("click", function (event) {
+      event.preventDefault();
+      modalEdit.style.display = "none";
+      const title = document.getElementById("editBookTitle").value;
+      const author = document.getElementById("editBookAuthor").value;
+      const year = Number(document.getElementById("editBookYear").value);
+      const isComplete = document.getElementById("editBookIsComplete").checked;
+      books[index].title = title;
+      books[index].author = author;
+      books[index].year = year;
+      books[index].isComplete = isComplete;
+      localStorage.setItem(localStorageKey, JSON.stringify(books));
+      renderCompleteBooks(books);
+      renderIncompleteBooks(books);
+    });
   });
   const action = document.createElement("div");
   action.classList.add("action");
