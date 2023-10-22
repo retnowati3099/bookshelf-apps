@@ -175,3 +175,85 @@ main {
     background-color: blue;
     color: white;
 }
+
+.modal{
+    background-color: #474e5d;
+    width: 100%;
+    height: 100%;
+    padding: 75px;
+    z-index: 1;
+    /* position: fixed;
+    top: 0;
+    right: 0; */
+}
+
+.close{
+    /* color: white;
+    font-size: 45px; */
+    position: absolute;
+    right: 30%;
+    top: 40px;
+    cursor: pointer;
+}
+
+
+.line1, .line2, .line3{
+    width: 30px;
+    height: 4px;
+    background-color: white;
+}
+
+.line1{
+    transform: translateY(8px) rotate(45deg);
+    margin-bottom: 4px;
+}
+.line2{
+    opacity: 0;
+}
+
+.line3{
+    transform: translateY(-8px) rotate(-45deg);
+    margin-top: 4px;
+} 
+
+.modal{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content{
+    width: 40%;
+    text-align: center;
+    background-color: white;
+    padding: 20px;
+}
+
+.btn-group{
+    display: flex;
+    justify-content: space-between;
+}
+
+.cencel{
+    background-color: gray;
+}
+
+.delete{
+    background-color: #FF605C;
+    color: white;
+}
+
+.cancel,.delete{
+    cursor: pointer;
+    border: none;
+    padding: 6px;
+    flex: 1;
+}
+
+.cancel:hover{
+    background-color: #E6E6E6;
+}
+
+.delete:hover{
+    background-color: #FF4F4D;
+}
