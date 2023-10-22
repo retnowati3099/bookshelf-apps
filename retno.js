@@ -2,6 +2,8 @@ const inputBook = document.getElementById("inputBook");
 const searchBook = document.getElementById("searchBook");
 const checkbox = document.getElementById("inputBookIsComplete");
 const incompleteRead = document.getElementById("incompleteRead");
+const modal = document.getElementById("modal");
+modal.style.display = "none";
 
 checkbox.addEventListener("click", function () {
   if (checkbox.checked) {
@@ -48,7 +50,7 @@ function renderCompleteBooks(books) {
       completedBookList.append(bookElement);
     }
   }
-  handlerDarkLight();
+  // handlerDarkLight();
 }
 
 function renderIncompleteBooks(books) {
@@ -65,13 +67,12 @@ function renderIncompleteBooks(books) {
     uncompletedBookList.append(empty);
   } else {
     for (const bookItem of ubooks) {
-      // books.filter((book)=>book.isComplete == false)
       const bookElement = makeNewBook(bookItem, bookItem.isComplete);
-      console.log(bookItem.isComplete);
+      // console.log(bookItem.isComplete);
       uncompletedBookList.append(bookElement);
     }
   }
-  handlerDarkLight();
+  // handlerDarkLight();
 }
 
 function addNewBook() {
@@ -82,18 +83,18 @@ function addNewBook() {
   const isComplete = document.getElementById("inputBookIsComplete").checked;
 
   const bookObject = { id, title, author, year, isComplete };
-  console.log(isComplete);
+  // console.log(isComplete);
   isLocalStorageExist();
   const books = JSON.parse(localStorage.getItem(localStorageKey));
   books.push(bookObject);
   localStorage.setItem(localStorageKey, JSON.stringify(books));
-  console.log(books);
+  // console.log(books);
   if (isComplete) {
     renderCompleteBooks(books);
   } else {
     renderIncompleteBooks(books);
   }
-  handlerDarkLight();
+  // handlerDarkLight();
 }
 
 function makeNewBook(bookObject, isComplete) {
@@ -131,15 +132,19 @@ function makeNewBook(bookObject, isComplete) {
     console.log(bookObject.title);
     const books = JSON.parse(localStorage.getItem(localStorageKey));
     const index = books.findIndex((book) => book.id == bookObject.id);
-    const confirm = window.confirm(
-      "Apakah Anda yakin ingin menghapus buku ini?"
-    );
-    if (confirm) {
+    modal.style.display = "block";
+    const cancelBtn = document.getElementById("cancel");
+    cancelBtn.addEventListener("click", function () {
+      modal.style.display = "none";
+    });
+    const deleteBtn = document.getElementById("delete");
+    deleteBtn.addEventListener("click", function () {
+      modal.style.display = "none";
       books.splice(index, 1);
       localStorage.setItem(localStorageKey, JSON.stringify(books));
       renderCompleteBooks(books);
       renderIncompleteBooks(books);
-    }
+    });
   });
 
   const btnBlue = document.createElement("button");
@@ -180,45 +185,45 @@ searchBook.addEventListener("submit", function (event) {
   renderIncompleteBooks(searchResult);
 });
 
-let darkMode = true;
-const iconDark = "./assets/dark_mode.svg";
-const iconLight = "/assets/light_mode.svg";
-const icon = document.getElementById("iconDarkLight");
+// let darkMode = true;
+// const iconDark = "./assets/dark_mode.svg";
+// const iconLight = "/assets/light_mode.svg";
+// const icon = document.getElementById("iconDarkLight");
 
-const handlerDarkLight = () => {
-  const sectionElement = document.querySelectorAll("section");
-  const bookItemElement = document.querySelectorAll(".book_item");
-  const inputElement = document.querySelectorAll("input");
-  const emptyBookElement = document.querySelectorAll(".emptyBook");
-  const searchLabelElement = document.getElementById("searchBookTitleLabel");
-  console.log("dark or light...");
-  if (darkMode) {
-    icon.src = iconLight;
-    document.getElementsByTagName("body")[0].style.backgroundColor = "black";
-    sectionElement.forEach(
-      (element) => (element.style.borderColor = "cornflowerblue")
-    );
-    bookItemElement.forEach((element) => {
-      element.style.borderColor = "cornflowerblue";
-      element.style.color = "white";
-    });
-    inputElement.forEach(
-      (element) => (element.style.borderColor = "cornflowerblue")
-    );
-    emptyBookElement.forEach((element) => (element.style.color = "white"));
-    searchLabelElement.style.color = "white";
-    darkMode = false;
-  } else {
-    icon.src = iconDark;
-    document.getElementsByTagName("body")[0].style.backgroundColor = "white";
-    sectionElement.forEach((element) => (element.style.borderColor = "black"));
-    bookItemElement.forEach((element) => {
-      element.style.borderColor = "black";
-      element.style.color = "black";
-    });
-    inputElement.forEach((element) => (element.style.borderColor = "black"));
-    emptyBookElement.forEach((element) => (element.style.color = "black"));
-    searchLabelElement.style.color = "black";
-    darkMode = true;
-  }
-};
+// const handlerDarkLight = () => {
+//   const sectionElement = document.querySelectorAll("section");
+//   const bookItemElement = document.querySelectorAll(".book_item");
+//   const inputElement = document.querySelectorAll("input");
+//   const emptyBookElement = document.querySelectorAll(".emptyBook");
+//   const searchLabelElement = document.getElementById("searchBookTitleLabel");
+//   console.log("dark or light...");
+//   if (darkMode) {
+//     icon.src = iconLight;
+//     document.getElementsByTagName("body")[0].style.backgroundColor = "black";
+//     sectionElement.forEach(
+//       (element) => (element.style.borderColor = "cornflowerblue")
+//     );
+//     bookItemElement.forEach((element) => {
+//       element.style.borderColor = "cornflowerblue";
+//       element.style.color = "white";
+//     });
+//     inputElement.forEach(
+//       (element) => (element.style.borderColor = "cornflowerblue")
+//     );
+//     emptyBookElement.forEach((element) => (element.style.color = "white"));
+//     searchLabelElement.style.color = "white";
+//     darkMode = false;
+//   } else {
+//     icon.src = iconDark;
+//     document.getElementsByTagName("body")[0].style.backgroundColor = "white";
+//     sectionElement.forEach((element) => (element.style.borderColor = "black"));
+//     bookItemElement.forEach((element) => {
+//       element.style.borderColor = "black";
+//       element.style.color = "black";
+//     });
+//     inputElement.forEach((element) => (element.style.borderColor = "black"));
+//     emptyBookElement.forEach((element) => (element.style.color = "black"));
+//     searchLabelElement.style.color = "black";
+//     darkMode = true;
+//   }
+// };
