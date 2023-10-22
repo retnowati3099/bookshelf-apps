@@ -176,7 +176,10 @@ main {
     color: white;
 }
 
-.modal{
+.modal, .modalEdit{
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
     background-color: rgba(71,78,93, 0.8);
     width: 100%;
     height: 100%;
@@ -195,9 +198,7 @@ main {
     text-align: center;
     background-color: white;
     padding: 20px;
-    position: absolute;
-    top: 37.5%;
-    right: 30%;
+    transform: translate(75%, 150%);
 }
 
 .btn-group{
@@ -241,4 +242,10 @@ main {
     align-items: center;
     clip-path: circle();
     cursor: pointer;
+}
+
+.modalEdit .input_section{
+    background-color: white;
+    width: 40%;
+    transform: translate(75%, 42%);
 }
