@@ -119,6 +119,11 @@ function makeNewBook(bookObject, isComplete) {
     cancelBtn.addEventListener("click", function () {
       modal.style.display = "none";
     });
+    window.addEventListener("click", function (event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    });
     const deleteBtn = document.getElementById("delete");
     deleteBtn.addEventListener("click", function () {
       modal.style.display = "none";
