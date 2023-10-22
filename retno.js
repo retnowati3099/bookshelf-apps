@@ -3,20 +3,14 @@ const searchBook = document.getElementById("searchBook");
 const checkbox = document.getElementById("inputBookIsComplete");
 const incompleteRead = document.getElementById("incompleteRead");
 const modal = document.getElementById("modal");
-modal.style.display = "none";
-
-checkbox.addEventListener("click", function () {
-  if (checkbox.checked) {
-    incompleteRead.textContent = "Selesai dibaca";
-  } else {
-    incompleteRead.textContent = "Belum selesai dibaca";
-  }
-});
-
+const mode = document.getElementById("mode");
+const icon = document.getElementById("iconDarkLight");
+let darkMode = true;
+const iconDark = "./assets/dark_mode.svg";
+const iconLight = "/assets/light_mode.svg";
 const localStorageKey = "BOOK_KEY";
 
 window.addEventListener("load", function () {
-  console.log("load...");
   isLocalStorageExist();
   const books = JSON.parse(localStorage.getItem(localStorageKey));
   renderCompleteBooks(books);
@@ -50,7 +44,7 @@ function renderCompleteBooks(books) {
       completedBookList.append(bookElement);
     }
   }
-  // handlerDarkLight();
+  handlerDarkLight();
 }
 
 function renderIncompleteBooks(books) {
@@ -59,7 +53,6 @@ function renderIncompleteBooks(books) {
   );
   uncompletedBookList.innerHTML = "";
   const ubooks = books.filter((book) => book.isComplete == false);
-  // ubooks.reverse()
   if (ubooks.length === 0) {
     const empty = document.createElement("h4");
     empty.innerText = "Tidak ada buku";
@@ -68,11 +61,10 @@ function renderIncompleteBooks(books) {
   } else {
     for (const bookItem of ubooks) {
       const bookElement = makeNewBook(bookItem, bookItem.isComplete);
-      // console.log(bookItem.isComplete);
       uncompletedBookList.append(bookElement);
     }
   }
-  // handlerDarkLight();
+  handlerDarkLight();
 }
 
 function addNewBook() {
@@ -81,33 +73,26 @@ function addNewBook() {
   const author = document.getElementById("inputBookAuthor").value;
   const year = Number(document.getElementById("inputBookYear").value);
   const isComplete = document.getElementById("inputBookIsComplete").checked;
-
   const bookObject = { id, title, author, year, isComplete };
-  // console.log(isComplete);
   isLocalStorageExist();
   const books = JSON.parse(localStorage.getItem(localStorageKey));
   books.push(bookObject);
   localStorage.setItem(localStorageKey, JSON.stringify(books));
-  // console.log(books);
   if (isComplete) {
     renderCompleteBooks(books);
   } else {
     renderIncompleteBooks(books);
   }
-  // handlerDarkLight();
+  handlerDarkLight();
 }
 
 function makeNewBook(bookObject, isComplete) {
-  console.log(isComplete);
   const title = document.createElement("h3");
   title.innerText = bookObject.title;
-
   const author = document.createElement("p");
   author.innerText = bookObject.author;
-
   const year = document.createElement("p");
   year.innerText = bookObject.year;
-
   const btnGreen = document.createElement("button");
   btnGreen.classList.add("green");
   if (isComplete) {
@@ -116,7 +101,6 @@ function makeNewBook(bookObject, isComplete) {
     btnGreen.innerText = "Selesai dibaca";
   }
   btnGreen.addEventListener("click", function () {
-    console.log(bookObject.title);
     const books = JSON.parse(localStorage.getItem(localStorageKey));
     const index = books.findIndex((book) => book.id == bookObject.id);
     books[index].isComplete = !books[index].isComplete;
@@ -124,12 +108,10 @@ function makeNewBook(bookObject, isComplete) {
     renderCompleteBooks(books);
     renderIncompleteBooks(books);
   });
-
   const btnRed = document.createElement("button");
   btnRed.classList.add("red");
   btnRed.innerText = "Hapus buku";
   btnRed.addEventListener("click", function () {
-    console.log(bookObject.title);
     const books = JSON.parse(localStorage.getItem(localStorageKey));
     const index = books.findIndex((book) => book.id == bookObject.id);
     modal.style.display = "block";
@@ -146,10 +128,9 @@ function makeNewBook(bookObject, isComplete) {
       renderIncompleteBooks(books);
     });
   });
-
   const btnBlue = document.createElement("button");
   btnBlue.classList.add("blue");
-  btnBlue.innerText = "Edit Buku";
+  btnBlue.innerText = "Edit buku";
   btnBlue.addEventListener("click", function () {
     console.log("editing..." + bookObject.title);
     const editDialog = document.createElement("dialog");
@@ -159,23 +140,18 @@ function makeNewBook(bookObject, isComplete) {
     editDialog.append(title);
     editDialog.open = true;
   });
-
   const action = document.createElement("div");
   action.classList.add("action");
   action.append(btnGreen, btnRed, btnBlue);
-
   const bookItem = document.createElement("article");
   bookItem.classList.add("book_item");
-
   bookItem.append(title, author, year, action);
-
   return bookItem;
 }
 
 searchBook.addEventListener("submit", function (event) {
   event.preventDefault();
   const query = document.getElementById("searchBookTitle").value;
-
   isLocalStorageExist();
   const books = JSON.parse(localStorage.getItem(localStorageKey));
   const searchResult = books.filter((book) =>
@@ -185,45 +161,47 @@ searchBook.addEventListener("submit", function (event) {
   renderIncompleteBooks(searchResult);
 });
 
-// let darkMode = true;
-// const iconDark = "./assets/dark_mode.svg";
-// const iconLight = "/assets/light_mode.svg";
-// const icon = document.getElementById("iconDarkLight");
+checkbox.addEventListener("click", function () {
+  if (checkbox.checked) {
+    incompleteRead.textContent = "Selesai dibaca";
+  } else {
+    incompleteRead.textContent = "Belum selesai dibaca";
+  }
+});
 
-// const handlerDarkLight = () => {
-//   const sectionElement = document.querySelectorAll("section");
-//   const bookItemElement = document.querySelectorAll(".book_item");
-//   const inputElement = document.querySelectorAll("input");
-//   const emptyBookElement = document.querySelectorAll(".emptyBook");
-//   const searchLabelElement = document.getElementById("searchBookTitleLabel");
-//   console.log("dark or light...");
-//   if (darkMode) {
-//     icon.src = iconLight;
-//     document.getElementsByTagName("body")[0].style.backgroundColor = "black";
-//     sectionElement.forEach(
-//       (element) => (element.style.borderColor = "cornflowerblue")
-//     );
-//     bookItemElement.forEach((element) => {
-//       element.style.borderColor = "cornflowerblue";
-//       element.style.color = "white";
-//     });
-//     inputElement.forEach(
-//       (element) => (element.style.borderColor = "cornflowerblue")
-//     );
-//     emptyBookElement.forEach((element) => (element.style.color = "white"));
-//     searchLabelElement.style.color = "white";
-//     darkMode = false;
-//   } else {
-//     icon.src = iconDark;
-//     document.getElementsByTagName("body")[0].style.backgroundColor = "white";
-//     sectionElement.forEach((element) => (element.style.borderColor = "black"));
-//     bookItemElement.forEach((element) => {
-//       element.style.borderColor = "black";
-//       element.style.color = "black";
-//     });
-//     inputElement.forEach((element) => (element.style.borderColor = "black"));
-//     emptyBookElement.forEach((element) => (element.style.color = "black"));
-//     searchLabelElement.style.color = "black";
-//     darkMode = true;
-//   }
-// };
+mode.addEventListener("click", function () {
+  const sectionElement = document.querySelectorAll("section");
+  const bookItemElement = document.querySelectorAll(".book_item");
+  const inputElement = document.querySelectorAll("input");
+  const emptyBookElement = document.querySelectorAll(".emptyBook");
+  const searchLabelElement = document.getElementById("searchBookTitleLabel");
+  if (darkMode) {
+    icon.src = iconLight;
+    document.getElementsByTagName("body")[0].style.backgroundColor = "black";
+    sectionElement.forEach(
+      (element) => (element.style.borderColor = "cornflowerblue")
+    );
+    bookItemElement.forEach((element) => {
+      element.style.borderColor = "cornflowerblue";
+      element.style.color = "white";
+    });
+    inputElement.forEach(
+      (element) => (element.style.borderColor = "cornflowerblue")
+    );
+    emptyBookElement.forEach((element) => (element.style.color = "white"));
+    searchLabelElement.style.color = "white";
+    darkMode = false;
+  } else {
+    icon.src = iconDark;
+    document.getElementsByTagName("body")[0].style.backgroundColor = "white";
+    sectionElement.forEach((element) => (element.style.borderColor = "black"));
+    bookItemElement.forEach((element) => {
+      element.style.borderColor = "black";
+      element.style.color = "black";
+    });
+    inputElement.forEach((element) => (element.style.borderColor = "black"));
+    emptyBookElement.forEach((element) => (element.style.color = "black"));
+    searchLabelElement.style.color = "black";
+    darkMode = true;
+  }
+});

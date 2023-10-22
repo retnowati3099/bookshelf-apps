@@ -186,41 +186,6 @@ main {
     right: 0;
 }
 
-.close{
-    /* color: white;
-    font-size: 45px; */
-    position: absolute;
-    right: 30%;
-    top: 40px;
-    cursor: pointer;
-}
-
-
-.line1, .line2, .line3{
-    width: 30px;
-    height: 4px;
-    background-color: white;
-}
-
-.line1{
-    transform: translateY(8px) rotate(45deg);
-    margin-bottom: 4px;
-}
-.line2{
-    opacity: 0;
-}
-
-.line3{
-    transform: translateY(-8px) rotate(-45deg);
-    margin-top: 4px;
-} 
-
-.modal{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .modal-content{
     width: 40%;
     height: 25%;
@@ -245,7 +210,7 @@ main {
 }
 
 .delete{
-    background-color: #FF605C;
+    background-color: darkred;
     color: white;
 }
 
@@ -262,4 +227,18 @@ main {
 
 .delete:hover{
     background-color: #FF4F4D;
+}
+
+.mode{
+    height: 30px;
+    width: 30px;
+    position: absolute;
+    right: 10px;
+    top: 17px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    clip-path: circle();
+    cursor: pointer;
 }
