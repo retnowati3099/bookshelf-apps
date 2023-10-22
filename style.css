@@ -177,14 +177,13 @@ main {
 }
 
 .modal{
-    background-color: #474e5d;
+    background-color: rgba(71,78,93, 0.8);
     width: 100%;
     height: 100%;
-    padding: 75px;
     z-index: 1;
-    /* position: fixed;
+    position: fixed;
     top: 0;
-    right: 0; */
+    right: 0;
 }
 
 .close{
@@ -224,9 +223,16 @@ main {
 
 .modal-content{
     width: 40%;
+    height: 25%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     text-align: center;
     background-color: white;
     padding: 20px;
+    position: absolute;
+    top: 37.5%;
+    right: 30%;
 }
 
 .btn-group{
