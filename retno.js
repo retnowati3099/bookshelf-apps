@@ -170,6 +170,10 @@ checkbox.addEventListener("click", function () {
 });
 
 mode.addEventListener("click", function () {
+  handlerDarkLight();
+});
+
+function handlerDarkLight() {
   const sectionElement = document.querySelectorAll("section");
   const bookItemElement = document.querySelectorAll(".book_item");
   const inputElement = document.querySelectorAll("input");
@@ -204,4 +208,4 @@ mode.addEventListener("click", function () {
     searchLabelElement.style.color = "black";
     darkMode = true;
   }
-});
+}
