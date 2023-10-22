@@ -16,16 +16,6 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div id="modal" class="modal" style="display: none">
-      <div class="modal-content">
-        <h2>Hapus Buku</h2>
-        <p>Apakah kamu yakin ingin menghapus buku ini?</p>
-        <div class="btn-group">
-          <button id="cancel" class="cancel">Batal</button>
-          <button id="delete" class="delete">Hapus</button>
-        </div>
-      </div>
-    </div>
     <header class="head_bar" style="position: relative">
       <h1 class="head_bar__title">Bookshelf Apps</h1>
       <div id="mode" class="mode">
@@ -79,6 +69,43 @@
         <div id="completeBookshelfList" class="book_list"></div>
       </section>
     </main>
+    <div id="modal" class="modal" style="display: none">
+      <div class="modal-content">
+        <h2>Hapus Buku</h2>
+        <p>Apakah kamu yakin ingin menghapus buku ini?</p>
+        <div class="btn-group">
+          <button id="cancel" class="cancel">Batal</button>
+          <button id="delete" class="delete">Hapus</button>
+        </div>
+      </div>
+    </div>
+    <div id="modalEdit" class="modalEdit" style="display: none">
+      <section class="input_section">
+        <h2>Update Buku</h2>
+        <form id="updateBook">
+          <div class="input">
+            <label>Judul</label>
+            <input id="editBookTitle" type="text" required />
+          </div>
+          <div class="input">
+            <label>Penulis</label>
+            <input id="editBookAuthor" type="text" required />
+          </div>
+          <div class="input">
+            <label>Tahun</label>
+            <input id="editBookYear" type="number" required />
+          </div>
+          <div class="input_inline">
+            <label>Selesai dibaca</label>
+            <input id="editBookIsComplete" type="checkbox" />
+          </div>
+          <div>
+            <button id="cancelUpdate" type="submit">Batal</button>
+            <button id="update" type="submit">Update</button>
+          </div>
+        </form>
+      </section>
+    </div>
     <script src="retno.js"></script>
   </body>
 </html>
